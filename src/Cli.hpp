@@ -4,6 +4,7 @@
 #include <vector>
 #include <array>
 #include <vector>
+#include <iostream>
 #include "Unitval.hpp"
 
 using namespace std;
@@ -11,11 +12,12 @@ using namespace std;
 class Cli {
 public:
   int get_nb_node() { return nb_node; }
-  vector<Unitval*> get_c() { return c; }
-  vector<int> get_l() { return l; }
-  vector<int> get_i() { return i; }
+  vector<Unitval*> & get_c() { return c; }
+  vector<int> & get_l() { return l; }
+  vector<int> & get_i() { return i; }
   vector<float> produit_direct(Cli &, vector<int>);
   vector<float> produit_transpose(Cli &, vector<int>);
+  void print_cli();
 private:
   int nb_node;
   vector<Unitval*> c;

@@ -9,14 +9,6 @@
 #include <stdio.h>
 #include "Unitval.hpp"
 
-/*class Unitval {
- public:
- float & get_valLine();
- void set_valLine(float x);
- private:
- float valLine;
- };*/
-
 float Unitval::get_valLine(){
     return this->valLine;
 }
