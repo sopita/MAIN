@@ -8,9 +8,9 @@
 
 #include "Read_Graph.hpp"
 
-Read_graph::Read_graph(const char * path,bool is_short):edge(1,10){
+Read_graph::Read_graph(const char * path,bool is_sorted):edge(1,10){
     int pid;
-    if(!is_short){
+    if(!is_sorted){
         int pipefd[2];
         long len;
         char * buf=new char[PATH_MAX];
@@ -24,17 +24,17 @@ Read_graph::Read_graph(const char * path,bool is_short):edge(1,10){
                 exit(EXIT_FAILURE);
             case 0:
                 close(pipefd[0]);
-                
+
                 if(dup2(pipefd[1],1)<0){
                     perror("dup2");
                     exit(EXIT_FAILURE);
                 }
-                
-                if(execlp("/Volumes/DD2/Master2/MAIN/Project_Main/Project_Main/sort_graph.sh", "/Volumes/DD2/Master2/MAIN/Project_Main/Project_Main/sort_graph.sh", path)<0){
+
+                if(execl("sort_graph.sh", "sort_graph.sh", path, NULL)<0){
                     perror("execlp");
                     exit(EXIT_FAILURE);
                 }
-                
+
             default:
                 close(pipefd[1]);
                 wait(NULL);
@@ -46,11 +46,11 @@ Read_graph::Read_graph(const char * path,bool is_short):edge(1,10){
                 close(pipefd[0]);
         }
         buf[len-1]='\0';
-        
+
         graph.open((const char *)buf);
         delete[] buf;
     }
-    
+
     else {
         graph.open((const char *)path);
     }

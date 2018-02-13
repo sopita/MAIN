@@ -17,13 +17,14 @@
 #include <limits.h>
 #include <unistd.h>
 #include <sstream>
+#include <sys/wait.h>
 
 using namespace std;
 
 class Read_graph{
 public:
     pair<int,int> * get_edge();
-    Read_graph(const char * path,bool is_short);
+    Read_graph(const char * path,bool is_sorted);
     virtual ~Read_graph();
 private:
     pair<int, int> edge;
