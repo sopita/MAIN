@@ -1,6 +1,11 @@
+#ifndef Cli_hpp
+#define Cli_hpp
+
+#include <vector>
 #include <array>
 #include <vector>
 #include "Unitval.hpp"
+
 using namespace std;
 
 class Cli {
@@ -17,3 +22,4 @@ private:
   vector<int> l;
   vector<int> i;
 };
+#endif /* Cli_hpp */
