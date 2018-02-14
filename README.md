@@ -1,5 +1,4 @@
-# MAIN
-Méthodes algorithmiques pour l'accès à l'information numérique
+# Méthodes algorithmiques pour l'accès à l'information numérique
 
 compile : make
 
