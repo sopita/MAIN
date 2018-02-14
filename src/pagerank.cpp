@@ -1,9 +1,11 @@
 #include "Read_Graph.hpp"
 #include "Cli.hpp"
-#include <string>
+#include <string.h>
+#include <stdlib.h>
 #include <map>
 
-void get_map_nodes(map<int, bool> & map, const char * path, bool is_sorted) {
+void get_map_nodes(map<int, bool> & map, const char * path, bool is_sorted)
+{
 
   Read_graph graph(path, is_sorted);
   pair<int, int> * p;
@@ -14,7 +16,8 @@ void get_map_nodes(map<int, bool> & map, const char * path, bool is_sorted) {
   }
 }
 
-Cli * make_cli(const char * path, bool is_sorted){
+Cli * make_cli(const char * path, bool is_sorted)
+{
   //Noeud, Seen
   map<int, bool> nodes;
   get_map_nodes(nodes, path, is_sorted);
@@ -41,7 +44,7 @@ Cli * make_cli(const char * path, bool is_sorted){
       actual_node = p->first;
       val = new Unitval();
       vector<int> & tmp_l(matrix->get_l());
-      matrix->get_l().push_back(tmp_l.back() + nb_child);
+      tmp_l.push_back(tmp_l.back() + nb_child);
       nb_child = 1;
       matrix->get_c().push_back(val);
       matrix->get_i().push_back(p->second);
@@ -52,7 +55,7 @@ Cli * make_cli(const char * path, bool is_sorted){
 
     while(p->first != it->first) {
       vector<int> & tmp_l(matrix->get_l());
-      matrix->get_l().push_back(tmp_l.back() + 0);
+      tmp_l.push_back(tmp_l.back() + 0);
       ++it;
     }
 
@@ -64,25 +67,45 @@ Cli * make_cli(const char * path, bool is_sorted){
 
   while(actual_node != it->first) {
     vector<int> & tmp_l(matrix->get_l());
-    matrix->get_l().push_back(tmp_l.back() + 0);
+    tmp_l.push_back(tmp_l.back() + 0);
     ++it;
   }
 
   vector<int> & tmp_l(matrix->get_l());
-  matrix->get_l().push_back(tmp_l.back() + nb_child);
+  tmp_l.push_back(tmp_l.back() + nb_child);
   val->set_valLine(1.0/nb_child);
 
   while(++it!=nodes.end()) {
     vector<int> & tmp_l(matrix->get_l());
-    matrix->get_l().push_back(tmp_l.back() + 0);
+    tmp_l.push_back(tmp_l.back() + 0);
   }
 
   return matrix;
 }
 
-int main(int argc, char const *argv[]) {
-  Cli * cli = make_cli(argv[1], 0);
-  cli->print_cli();
-  cli->pagerank(0.15, 0.0001);
+int main(int argc, char const *argv[])
+{
+  if(argc >= 6){
+    float epsilon(0);
+    float zap(0);
+
+    if(strcmp(argv[1], "-eps") == 0) {
+      epsilon = strtof(argv[2], NULL);
+    } else if(strcmp(argv[1], "-zap") == 0) {
+      zap = strtof(argv[2], NULL);
+    }
+
+    if(strcmp(argv[3], "-eps") == 0) {
+      epsilon = strtof(argv[4], NULL);
+    } else if(strcmp(argv[3], "-zap") == 0) {
+      zap = strtof(argv[4], NULL);
+    }
+
+    Cli * cli = make_cli(argv[5], 0);
+    cli->print_cli();
+    cli->pagerank(zap, epsilon);
+  } else {
+
+  }
   return 0;
 }
