@@ -70,12 +70,11 @@ pair<int,int> * Read_graph::get_edge(){
             return &edge;
         }
     }
-    cout << endl;
     return nullptr;
 }
 
 
 Read_graph::~Read_graph(){
-    cout << "delete\n";
+    //cout << "delete\n";
     graph.close();
 }
