@@ -81,7 +81,7 @@ Cli * make_cli(const char * path, bool is_sorted){
 }
 
 int main(int argc, char const *argv[]) {
-  Cli * cli = make_cli("../examples/tp1-fig1.txt", 1);
+  Cli * cli = make_cli(argv[1], 0);
   cli->print_cli();
   cli->pagerank(0.15, 0.0001);
   return 0;
