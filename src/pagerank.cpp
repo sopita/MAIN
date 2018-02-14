@@ -5,10 +5,10 @@
 
 void get_map_nodes(map<int, bool> & map, const char * path, bool is_sorted)
 {
-    
+
     Read_graph graph(path, is_sorted);
     pair<int, int> * p;
-    
+
     while((p = graph.get_edge())) {
         map.insert(pair<int, bool>(p->first, false));
         map.insert(pair<int, bool>(p->second, false));
@@ -16,17 +16,16 @@ void get_map_nodes(map<int, bool> & map, const char * path, bool is_sorted)
 }
 
 Cli * make_cli(const char * path, bool is_sorted){
-    //Noeud, Seen
     map<int, bool> nodes;
     get_map_nodes(nodes, path, is_sorted);
-    
+
     if(nodes.empty()){
         cout << "empty File\n";
         exit(EXIT_SUCCESS);
     }
-    
+
     Cli * matrix = new Cli(nodes.size());
-    
+
     Read_graph graph(path, is_sorted);
     int nb_child(0);
     pair<int, int> * p = graph.get_edge();
@@ -51,26 +50,26 @@ Cli * make_cli(const char * path, bool is_sorted){
             matrix->get_i().push_back(p->second);
             ++it;
         }
-        
-        
+
+
         while(p->first != it->first) {
             vector<int> & tmp_l(matrix->get_l());
             tmp_l.push_back(tmp_l.back());
             ++it;
         }
-        
+
     } while ((p = graph.get_edge()));
-    
+
     vector<int> & tmp_l(matrix->get_l());
     tmp_l.push_back(tmp_l.back() + nb_child);
     val->set_valLine(1.0/nb_child);
-    
+
     //Add the node that not have any edges.
     while(++it!=nodes.end()) {
         vector<int> & tmp_l(matrix->get_l());
         tmp_l.push_back(tmp_l.back() + 0);
     }
-    
+
     return matrix;
 }
 
@@ -79,7 +78,7 @@ int main(int argc, char const *argv[])
     if(argc >= 6){
         float epsilon(0);
         float zap(0);
-        
+
         if(!strcmp(argv[1], "-eps")) {
             epsilon = stof(argv[2]);
         }
