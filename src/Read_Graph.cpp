@@ -31,10 +31,9 @@ Read_graph::Read_graph(const char * path,bool is_sorted):edge(1,10){
                 }
 
                 if(execl("sort_graph.sh", "sort_graph.sh", path, NULL)<0){
-                    perror("execlp");
+                    perror("execl");
                     exit(EXIT_FAILURE);
                 }
-
             default:
                 close(pipefd[1]);
                 wait(NULL);

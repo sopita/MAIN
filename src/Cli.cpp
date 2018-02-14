@@ -1,18 +1,22 @@
 #include "Cli.hpp"
 
-vector<float> Cli::produit_direct(vector<float> x) {
-  vector<float> y;
-  for(size_t i = 0; i < this->nb_node; i++) {
-    y[i] = 0;
-    for(int k = this->get_l()[i]; k < this->get_l()[i+1]; k++) {
-      y[i] += this->get_c()[k]->get_valLine() * x[this->get_i()[k]];
-    }
-  }
-
-  return y;
+unsigned int Cli::get_nb_node() {
+  return nb_node;
 }
 
-vector<float> Cli::produit_transpose(vector<float> x) {
+vector<Unitval*> & Cli::get_c() {
+  return c;
+}
+
+vector<int> & Cli::get_l() {
+  return l;
+}
+
+vector<int> & Cli::get_i() {
+  return i;
+}
+
+vector<float> Cli::produit_transpose(vector<float> x, float zap) {
   vector<float> y;
 
   for(size_t i = 0; i < this->nb_node; i++) y.push_back(0);
@@ -23,7 +27,7 @@ vector<float> Cli::produit_transpose(vector<float> x) {
   }
 
   for (size_t i = 0; i < y.size(); i++) {
-    y[i] = (0.15/this->nb_node) + ((1.0-0.15) * y[i]);
+    y[i] = (zap/this->nb_node) + ((1.0-zap) * y[i]);
   }
 
   return y;
@@ -40,7 +44,7 @@ void Cli::pagerank(float d, float e) {
 
   cout << endl;
 
-  vector<float> tmp = this->produit_transpose(this->ranking);
+  vector<float> tmp = this->produit_transpose(this->ranking, d);
 
   while(check_if_continue(tmp, e)) {
     this->ranking = tmp;
@@ -51,7 +55,7 @@ void Cli::pagerank(float d, float e) {
 
     cout << endl;
 
-    tmp = this->produit_transpose(this->ranking);
+    tmp = this->produit_transpose(this->ranking, d);
   }
 }
 
