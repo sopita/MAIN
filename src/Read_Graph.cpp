@@ -72,8 +72,6 @@ pair<int,int> * Read_graph::get_edge(){
     return nullptr;
 }
 
-
 Read_graph::~Read_graph(){
-    cout << "delete\n";
     graph.close();
 }
