@@ -11,7 +11,7 @@ class infos{
 
 class article{
   int id;
-}
+};
 
 int main(int argc, char const *argv[])
 {
@@ -48,7 +48,7 @@ int main(int argc, char const *argv[])
     }
   }
 
-  std::cout << info_graphe->nb_id << std::endl;
+  std::cout << "Number of articles : " << info_graphe->nb_id << std::endl;
 
   std::map<std::string, int>::iterator it = info_graphe->groups.begin();
 
