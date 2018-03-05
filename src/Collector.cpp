@@ -107,6 +107,6 @@ Article* Collector::getNewArticle()
       //cout << "--<" << line.substr(14) << ">--" << endl;
     }
   }
-
+  delete current_article;
   return nullptr; //Pas très beau (faire une exception)
 }

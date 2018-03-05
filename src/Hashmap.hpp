@@ -3,14 +3,15 @@
 #include <unordered_map>
 #include <fstream>
 #include <iostream>
-
+#include <list>
 class Hashmap{
 public:
     void show_map();
     void create_collector(std::string md,std::vector<std::string> &dicts,std::string exclude_dict);
+    virtual ~Hashmap();
+private:
     void add_dictionnary(std::string dict);
     void delete_dict(std::string dict);
-private:
     void put(const std::string key);
     std::vector<long> * get(std::string key);
     std::unordered_map<std::string,std::vector<long> *> map;
