@@ -29,12 +29,13 @@ Article* Collector::getNewArticle()
       //cout << "(" << line.substr(3) << ")" << endl;
       --nb_categorie;
       replace(line.begin(), line.end(), '|', ' ');
-      regex e ("([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
+      regex e (R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
       //cout << regex_replace(line, e, "") << endl;
       //cout << "(" << line.substr(3) << ")" << endl;
-      string result;
-      regex_replace(back_inserter(result), line.begin(), line.end(), e, "");
-      stringstream ssin(result);
+      //string result;
+      //regex_replace(back_inserter(result), line.begin(), line.end(), e, "");
+      //stringstream ssin(result);
+      stringstream ssin(regex_replace(line, e,""));
       do
       {
         // read as many numbers as possible.
