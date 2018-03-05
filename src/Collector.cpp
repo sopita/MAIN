@@ -9,6 +9,12 @@ Collector::Collector(string name)
   }
 }
 
+void remove_duplicates(std::vector<string>& vec)
+{
+  std::sort(vec.begin(), vec.end()); //Performs approximately N*log2(N) (where N is this distance) comparisons of elements, and up to that many element swaps (or moves)
+  vec.erase(std::unique(vec.begin(), vec.end()), vec.end()); //For non-empty ranges, linear in one less than the distance between first and last: Compares each pair of consecutive elements, and possibly performs assignments on some of them.
+}
+
 Article* Collector::getNewArticle()
 {
 
@@ -32,9 +38,6 @@ Article* Collector::getNewArticle()
       regex e (R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
       //cout << regex_replace(line, e, "") << endl;
       //cout << "(" << line.substr(3) << ")" << endl;
-      //string result;
-      //regex_replace(back_inserter(result), line.begin(), line.end(), e, "");
-      //stringstream ssin(result);
       stringstream ssin(regex_replace(line, e,""));
       do
       {
@@ -52,6 +55,7 @@ Article* Collector::getNewArticle()
       }
       while (!ssin.eof());
 
+      remove_duplicates(current_article->getWords());
       //cout << "size : " << current_article->getWords().size() << endl;
 
       if(nb_categorie == 0) {
