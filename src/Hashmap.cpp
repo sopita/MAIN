@@ -55,7 +55,7 @@ void Hashmap::show_map(){
 
 
 void Hashmap::create_collector(std::string md,std::vector<std::string> & dicts,std::string exclude_dict){
-    
+    std::list<std::string> visited;
     try{
         Collector collec(md);
         Article * article;
@@ -71,9 +71,13 @@ void Hashmap::create_collector(std::string md,std::vector<std::string> & dicts,s
                 std::transform(it->begin(), it->end(), lower_tmp.begin(), ::tolower);
                 auto search=map.find(lower_tmp);
                 if(search!=map.end()){
+                    if(search->second->size()==0){
+                        visited.push_back(search->first);
+                    }
                     search->second->push_back(article->getId());
                 }
             }
+            delete article;
         }
     }
     catch (const exception& e) {
@@ -85,25 +89,25 @@ void Hashmap::create_collector(std::string md,std::vector<std::string> & dicts,s
         perror("open");
         exit(EXIT_FAILURE);
     }
-    unordered_map<std::string, vector<long> *>:: iterator itr;
-    for (itr=map.begin(); itr!=map.end(); itr++){
-        if(itr->second->size()>0){
-            cout << itr->first << ": " << *(itr->second);
-            fic << itr->first << ": "<< *(itr->second);
-        }
-        //cout << itr->first << ": " << *(itr->second);
+    std::list<std::string>::iterator itr;
+    for (itr=visited.begin(); itr!=visited.end(); itr++){
+        auto tmp=map.find(*itr);
+        cout << tmp->first << ": " << *(tmp->second);
+        fic << tmp->first << ": "<< *(tmp->second);
     }
     fic.close();
 }
 
+Hashmap::~Hashmap(){
+    unordered_map<string, vector<long> *>:: iterator itr;
+    for (itr=map.begin(); itr!=map.end(); itr++){
+        delete itr->second;
+    }
+}
+
+
 int main(){
     Hashmap map;
-    /*map.add_dictionnary("/Volumes/DD2/Master2/MAIN/MAIN/src/test.txt");
-    map.show_map();
-    map.add_dictionnary("/Volumes/DD2/Master2/MAIN/MAIN/src/test.txt");
-    map.show_map();
-    map.delete_dict("/Volumes/DD2/Master2/MAIN/MAIN/src/test.txt");
-    map.show_map();*/
     std::vector<std::string> dics;
     dics.push_back("/Volumes/DD2/Master2/MAIN/MAIN/google-10000-english.txt");
     map.create_collector("/Volumes/DD2/Master2/MAIN/MAIN/amazon-small.txt", dics, "/Volumes/DD2/Master2/MAIN/MAIN/src/test.txt");
