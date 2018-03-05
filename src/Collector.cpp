@@ -35,15 +35,16 @@ Article* Collector::getNewArticle()
       //cout << "(" << line.substr(3) << ")" << endl;
       --nb_categorie;
       replace(line.begin(), line.end(), '|', ' ');
-      regex e (R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
+      regex e (R"\\(||\\)||([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
       //cout << regex_replace(line, e, "") << endl;
       //cout << "(" << line.substr(3) << ")" << endl;
       stringstream ssin(regex_replace(line, e,""));
       do
       {
         // read as many numbers as possible.
-        for (string number; ssin >> number;) {
-            current_article->getWords().push_back(number);
+        for (string word; ssin >> word;) {
+          if(word.length() > 1)
+            current_article->getWords().push_back(word);
         }
         // consume and discard token from stream.
         if (ssin.fail())
@@ -86,8 +87,9 @@ Article* Collector::getNewArticle()
       do
       {
         // read as many numbers as possible.
-        for (string number; ssin >> number;) {
-            current_article->getWords().push_back(number);
+        for (string word; ssin >> word;) {
+          if(word.length() > 1)
+            current_article->getWords().push_back(word);
         }
         // consume and discard token from stream.
         if (ssin.fail())
