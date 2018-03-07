@@ -10,4 +10,4 @@ collector: Article.cpp Collector.cpp Hashmap.cpp
 	g++ -Wall Article.cpp Collector.cpp Hashmap.cpp -o collector
 
 clean:
-	find . -maxdepth 1 -type f ! -name "*.cpp" ! -name "*.hpp" ! -name "Makefile" -delete
+	find . -maxdepth 1 -type f ! -name "*.cpp" ! -name "*.hpp" ! -name "*.sh" ! -name "Makefile" -delete
