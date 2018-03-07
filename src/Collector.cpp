@@ -35,10 +35,10 @@ Article* Collector::getNewArticle()
       //cout << "(" << line.substr(3) << ")" << endl;
       --nb_categorie;
       replace(line.begin(), line.end(), '|', ' ');
-      regex e (R"\\(||\\)||([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
+      regex e (R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
       //cout << regex_replace(line, e, "") << endl;
       //cout << "(" << line.substr(3) << ")" << endl;
-      stringstream ssin(regex_replace(line, e,""));
+      stringstream ssin(regex_replace(line, e,"",std::regex_constants::match_not_null));
       do
       {
         // read as many numbers as possible.

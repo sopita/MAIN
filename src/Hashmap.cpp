@@ -84,7 +84,7 @@ void Hashmap::create_collector(std::string md,std::vector<std::string> & dicts,s
         cerr << e.what();
         exit(EXIT_FAILURE);
     }
-    ofstream fic("/Volumes/DD2/Master2/MAIN/MAIN/test_output.txt");
+    ofstream fic("output.txt",ios::trunc | ios::out);
     if(!fic.is_open()){
         perror("open");
         exit(EXIT_FAILURE);
@@ -92,10 +92,10 @@ void Hashmap::create_collector(std::string md,std::vector<std::string> & dicts,s
     std::list<std::string>::iterator itr;
     for (itr=visited.begin(); itr!=visited.end(); itr++){
         auto tmp=map.find(*itr);
-        cout << tmp->first << ": " << *(tmp->second);
         fic << tmp->first << ": "<< *(tmp->second);
     }
     fic.close();
+    cout << "the output file has been created: output.txt\n";
 }
 
 Hashmap::~Hashmap(){
@@ -105,11 +105,18 @@ Hashmap::~Hashmap(){
     }
 }
 
-
-int main(){
+int main(int args, char ** argv){
+    if(args<4){
+        cout << argv[0] <<"Ex: metadonne.txt dict0 dict1 dics2 exclude_dict\n";
+        return 0;
+    }
+    std::vector<std::string> dicts;
+    for(int i=2;i<args-1;i++){
+        std::string tmp = argv[i];
+        dicts.push_back(tmp);
+    }
     Hashmap map;
     std::vector<std::string> dics;
-    dics.push_back("/Volumes/DD2/Master2/MAIN/MAIN/google-10000-english.txt");
-    map.create_collector("/Volumes/DD2/Master2/MAIN/MAIN/amazon-small.txt", dics, "/Volumes/DD2/Master2/MAIN/MAIN/src/test.txt");
+    map.create_collector(argv[1], dicts, argv[args-1]);
     return 0;
 }
