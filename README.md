@@ -1,13 +1,15 @@
 ### Méthodes algorithmiques pour l'accès à l'information numérique
 
-##### Compile :
+### __Compile__
 
 ```
 cd src
 make
 ```
 
-##### Example of execution :
+### __PageRank__
+
+#### Example of execution
 ```
 ./pagerank -eps 0.0001 -zap 0.15 graph.txt --is_sorted
 ```
@@ -28,7 +30,7 @@ The option **--is_sorted** is in case where the graph is already sorted.
 
 >**Note** : The Sparse Matrix that we have implemented doesn't work with a file who hasn't been sorted. (The complexity will increase otherwhere)
 
-##### **Test on given examples**
+#### **Test on given examples**
 * f1g1 = correct
 * n3e4 = correct
 * n4e4 = correct
@@ -39,3 +41,54 @@ The option **--is_sorted** is in case where the graph is already sorted.
 * n35e83 = Doesn't seens good
 
 *We think we have some small error that get bigger when there is more nodes in the graph.*
+
+### __Collector__
+
+#### Example of execution
+```
+./collector metadatas.txt dict0.txt dict1.txt dics2.txt exclude_dict.txt
+```
+
+The argument **metadatas.txt** is a file that contains datas that the program will work on. (here this is the amazon-meta file)
+
+The arguments **dict[0-2]** are files that contains dictionaries on which will be indexed the content of the metadatas file.
+
+The argument **exclude_dict.txt** is a file that contains words that will be excluded from the dictionaries.
+
+#### Problems encountered
+
+* **Regex expression problem**
+
+We have a problem with regex, indeed some regex expression that works on linux and Windows, doesn't work on macOS.
+
+We have this problem only when we want to catch  **__categories__ of amazon-meta** file with this regex expression :
+```
+regex e ("[^\\[a-zA-Z ]||\\[||\\]]");
+```
+**then we replace it with :**
+```
+regex e (R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
+```
+
+>**Important** : If you use a Linux or Windows then replace this regex expression with the first one which is more specific.
+
+* **Another regex problem**
+
+>It seems that on MAC **we need** to put a ***R*** before a regex expression.
+
+>The problem is that on Linux and Windows, with this ***R*** symbol the program don't work anymore.
+
+**So that's why we choose to put some macros :**
+
+```
+/****
+  A BETTER REGEX BUT WORKING ONLY ON WIN AND LINUX
+  "[^\\[a-zA-Z ]||\\[||\\]]"
+****/
+
+#if defined(_WIN32) || defined(__linux__)
+  #define REGEX "([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)"
+#elif __APPLE__
+  #define REGEX R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)"
+#endif
+```
