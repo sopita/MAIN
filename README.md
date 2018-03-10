@@ -38,7 +38,7 @@ The option **--is_sorted** is in case where the graph is already sorted.
 * n4e6 = correct
 * n4e7 = correct
 * n4e7t = correct
-* n35e83 = Doesn't seens good
+* n35e83 = Doesn't seems good
 
 *We think we have some small error that get bigger when there is more nodes in the graph.*
 
@@ -76,7 +76,7 @@ regex e (R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
 
 >It seems that on MAC **we need** to put a ***R*** before a regex expression.
 
->The problem is that on Linux and Windows, with this ***R*** symbol the program don't work anymore.
+>The problem is that on Linux and Windows, with this ***R*** symbol the program doesn't work anymore.
 
 **So that's why we choose to put some macros :**
 
