@@ -4,15 +4,15 @@ Article::Article(long int id_art): id(id_art) {}
 
 void Article::setId(long int id)
 {
-  this->id = id;
+    this->id = id;
 }
 
 long int Article::getId()
 {
-  return id;
+    return id;
 }
 
-vector<string>& Article::getWords()
+ std::unordered_map<std::string,int>& Article::getWords()
 {
-  return words;
+    return words;
 }
