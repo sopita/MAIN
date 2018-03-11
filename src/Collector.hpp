@@ -1,3 +1,6 @@
+#ifndef Collector_hpp
+#define Collector_hpp
+
 #include "Article.hpp"
 #include <fstream>
 #include <iostream>
@@ -7,20 +10,22 @@
 #include <regex>
 
 /****
-  A BETTER REGEX BUT WORKING ONLY ON WIN AND LINUX
-  "[^\\[a-zA-Z ]||\\[||\\]]"
-****/
+ A BETTER REGEX BUT WORKING ONLY ON WIN AND LINUX
+ "[^\\[a-zA-Z ]||\\[||\\]]"
+ ****/
 
 #if defined(_WIN32) || defined(__linux__)
-  #define REGEX "([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)"
+#define REGEX "([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)"
 #elif __APPLE__
-  #define REGEX R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)"
+#define REGEX R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)"
 #endif
 
 class Collector {
 public:
-  Article* getNewArticle();
-  Collector(string);
+    Article* getNewArticle();
+    Collector(string);
 private:
-  ifstream file;
+    ifstream file;
 };
+
+#endif /* Collector_hpp*/

@@ -1,15 +1,21 @@
+#ifndef Article_hpp
+#define Article_hpp
+
+#include <unordered_map>
 #include <vector>
 #include <string>
 using namespace std;
 
 class Article {
 public:
-  Article():id(-1){};
-  Article(long int);
-  long int getId();
-  void setId(long int);
-  vector<string>& getWords();
+    Article():id(-1){};
+    Article(long int);
+    long int getId();
+    void setId(long int);
+    std::unordered_map<std::string,int>& getWords();
 private:
-  long int id;
-  vector<string> words;
+    long id;
+    std::unordered_map<std::string,int> words;
 };
+
+#endif /* Article_hpp */

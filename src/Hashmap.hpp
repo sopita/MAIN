@@ -1,5 +1,8 @@
+#ifndef Hashmap_hpp
+#define Hashmap_hpp
+
 #include "Collector.hpp"
-//#include "Article.hpp"
+#include "Article.hpp"
 #include <unordered_map>
 #include <fstream>
 #include <iostream>
@@ -25,3 +28,5 @@ std::ostream& operator<<(std::ostream& s, std::vector<T> t) {
     }
     return s << "]" << std::endl;
 }
+
+#endif /* Hashmap_hpp */

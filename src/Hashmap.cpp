@@ -50,49 +50,41 @@ void Hashmap::show_map(){
     for (itr=map.begin(); itr!=map.end(); itr++){
         cout << itr->first << "  " << itr->second->size() << endl;
     }
-
+    
 }
 
 
 void Hashmap::create_collector(std::string md,std::vector<std::string> & dicts,std::string exclude_dict){
-    std::list<std::string> visited;
-    try{
-        Collector collec(md);
-        Article * article;
-        for (std::vector<std::string>::iterator it = dicts.begin() ; it !=dicts.end(); ++it){
-            this->add_dictionnary(*it);
-        }
-        this->delete_dict(exclude_dict);
-        std::string lower_tmp;
-        while ((article=collec.getNewArticle())!=nullptr) {
-            vector<string>& words(article->getWords());
-            for(std::vector<std::string>::iterator it=words.begin();it !=words.end(); ++it){
-                lower_tmp.resize(it->size());
-                std::transform(it->begin(), it->end(), lower_tmp.begin(), ::tolower);
-                auto search=map.find(lower_tmp);
-                if(search!=map.end()){
-                    if(search->second->size()==0){
-                        visited.push_back(search->first);
-                    }
-                    search->second->push_back(article->getId());
-                }
-            }
-            delete article;
-        }
+    Collector collec(md);
+    Article * article;
+    for (std::vector<std::string>::iterator it = dicts.begin() ; it !=dicts.end(); ++it){
+        this->add_dictionnary(*it);
     }
-    catch (const exception& e) {
-        cerr << e.what();
-        exit(EXIT_FAILURE);
+    this->delete_dict(exclude_dict);
+    std::string lower_tmp;
+
+    while ((article=collec.getNewArticle())!=nullptr) {
+        std::unordered_map<std::string,int>& words(article->getWords());
+        unordered_map<string, int>:: iterator itr;
+        for (itr=words.begin(); itr!=words.end(); itr++){
+            lower_tmp.resize(itr->first.size());
+            std::transform(itr->first.begin(), itr->first.end(), lower_tmp.begin(), ::tolower);
+            auto search=map.find(lower_tmp);
+            if(search!=map.end()){
+                search->second->push_back(article->getId());
+            }
+        }
+        delete article;
     }
     ofstream fic("output.txt",ios::trunc | ios::out);
     if(!fic.is_open()){
         perror("open");
         exit(EXIT_FAILURE);
     }
-    std::list<std::string>::iterator itr;
-    for (itr=visited.begin(); itr!=visited.end(); itr++){
-        auto tmp=map.find(*itr);
-        fic << tmp->first << ": "<< *(tmp->second);
+    
+    unordered_map<std::string,std::vector<long> *>:: iterator itr;
+    for (itr=map.begin(); itr!=map.end(); itr++){
+        fic << itr->first << ": "<< *(itr->second);
     }
     fic.close();
     cout << "the output file has been created: output.txt\n";
