@@ -10,6 +10,7 @@
 #include <regex>
 #include <string>
 #include <unordered_map>
+#include <set>
 
 
 /****
@@ -25,11 +26,10 @@
 
 class Collector {
 public:
-    Article* getNewArticle();
     Collector(string);
-    void getArticleWords( std::unordered_map<std::string,std::vector<long> *> & map);
+    void getArticleWords( std::unordered_map<std::string,std::set<long> *> & map);
 private:
-    void replace_by(std::string& str, std::unordered_map<std::string,std::vector<long> *> & map,long id );
+    void replace_by(std::string& str, std::unordered_map<std::string,std::set<long> *> & map,long id );
     std::unordered_map<char,char> punctuation_to_delete;
     ifstream file;
 };
