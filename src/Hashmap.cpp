@@ -3,14 +3,14 @@
 void Hashmap::put(const std::string key){
     auto search = map.find(key);
     if(search==map.end()){
-        map[key]=new std::vector<long>();
+        map[key]=new std::set<long>();
     }
     else{
         cout << "Not put\n";
     }
 }
 
-std::vector<long> * Hashmap::get(std::string key){
+std::set<long> * Hashmap::get(std::string key){
     return this->map[key];
 }
 
@@ -46,52 +46,45 @@ void Hashmap::add_dictionnary(std::string dict){
 }
 
 void Hashmap::show_map(){
-    unordered_map<string, vector<long> *>:: iterator itr;
+    unordered_map<string, set<long> *>:: iterator itr;
     for (itr=map.begin(); itr!=map.end(); itr++){
         cout << itr->first << "  " << itr->second->size() << endl;
     }
-    
+
 }
 
 
 void Hashmap::create_collector(std::string md,std::vector<std::string> & dicts,std::string exclude_dict){
     Collector collec(md);
-    Article * article;
     for (std::vector<std::string>::iterator it = dicts.begin() ; it !=dicts.end(); ++it){
         this->add_dictionnary(*it);
     }
     this->delete_dict(exclude_dict);
     std::string lower_tmp;
+    collec.getArticleWords(map);
 
-    while ((article=collec.getNewArticle())!=nullptr) {
-        std::unordered_map<std::string,int>& words(article->getWords());
-        unordered_map<string, int>:: iterator itr;
-        for (itr=words.begin(); itr!=words.end(); itr++){
-            lower_tmp.resize(itr->first.size());
-            std::transform(itr->first.begin(), itr->first.end(), lower_tmp.begin(), ::tolower);
-            auto search=map.find(lower_tmp);
-            if(search!=map.end()){
-                search->second->push_back(article->getId());
-            }
-        }
-        delete article;
-    }
     ofstream fic("output.txt",ios::trunc | ios::out);
     if(!fic.is_open()){
         perror("open");
         exit(EXIT_FAILURE);
     }
-    
-    unordered_map<std::string,std::vector<long> *>:: iterator itr;
+
+    unordered_map<std::string, std::set<long> *>:: iterator itr;
+    std::set<long>::iterator set_it;
+
     for (itr=map.begin(); itr!=map.end(); itr++){
-        fic << itr->first << ": "<< *(itr->second);
+        fic << itr->first << ": "; 
+        for (set_it = itr->second->begin(); set_it != itr->second->end(); ++set_it){
+            fic << *set_it << ", ";
+        }
+        fic << endl;
     }
     fic.close();
     cout << "the output file has been created: output.txt\n";
 }
 
 Hashmap::~Hashmap(){
-    unordered_map<string, vector<long> *>:: iterator itr;
+    unordered_map<string, set<long> *>:: iterator itr;
     for (itr=map.begin(); itr!=map.end(); itr++){
         delete itr->second;
     }

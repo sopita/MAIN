@@ -55,6 +55,15 @@ The arguments **dict[0-2]** are files that contains dictionaries on which will b
 
 The argument **exclude_dict.txt** is a file that contains words that will be excluded from the dictionaries.
 
+**To parse the file given in argument, we tried two ways :**
+  * The first one was to use regex expression
+  * The second one was to do it without regex
+
+### REGEX
+
+**We encountered a lot of problem with regex, the main one is a huge preformance issue.**
+**Indeed, for the big amazon-meta file, the execution time is no less than 20 minutes.**
+
 #### Problems encountered
 
 * **Regex expression problem**
@@ -92,3 +101,6 @@ regex e (R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
   #define REGEX R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)"
 #endif
 ```
+
+**Due to the huge performance issue we talked about, we prefered to give up using regex.**
+**Right now the execution time is less than 2 minutes.**
