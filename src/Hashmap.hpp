@@ -7,6 +7,8 @@
 #include <fstream>
 #include <iostream>
 #include <list>
+#include <set>
+
 class Hashmap{
 public:
     void show_map();
@@ -16,8 +18,8 @@ private:
     void add_dictionnary(std::string dict);
     void delete_dict(std::string dict);
     void put(const std::string key);
-    std::vector<long> * get(std::string key);
-    std::unordered_map<std::string,std::vector<long> *> map;
+    std::set<long> * get(std::string key);
+    std::unordered_map<std::string,std::set<long> *> map;
 };
 
 template<typename T>
