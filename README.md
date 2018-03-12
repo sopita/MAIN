@@ -103,4 +103,4 @@ regex e (R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)");
 ```
 
 **Due to the huge performance issue we talked about, we prefered to give up using regex.**
-**Right now the execution time is less than 2 minutes.""
+**Right now the execution time is less than 2 minutes.**
