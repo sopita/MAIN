@@ -34,7 +34,7 @@ void Collector::getArticleWords(std::unordered_map<std::string,std::set<long> *>
 
         if(line.size() > 11 && line.compare(2, 11, "categories:") == 0){
             nb_categories = stol(line.substr(14));
-            for(int i=0;i <= nb_categories; i++){
+            for(int i=0;i < nb_categories; i++){
                 getline(this->file, line);
                 replace_by(line,map,id);
             }
