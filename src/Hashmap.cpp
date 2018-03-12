@@ -62,8 +62,8 @@ void Hashmap::create_collector(std::string md,std::vector<std::string> & dicts,s
     }
     this->delete_dict(exclude_dict);
     std::string lower_tmp;
-
-    while ((article=collec.getNewArticle())!=nullptr) {
+    collec.getArticleWords(map);
+    /*while ((article=collec.getNewArticle())!=nullptr) {
         std::unordered_map<std::string,int>& words(article->getWords());
         unordered_map<string, int>:: iterator itr;
         for (itr=words.begin(); itr!=words.end(); itr++){
@@ -75,7 +75,7 @@ void Hashmap::create_collector(std::string md,std::vector<std::string> & dicts,s
             }
         }
         delete article;
-    }
+    }*/
     ofstream fic("output.txt",ios::trunc | ios::out);
     if(!fic.is_open()){
         perror("open");

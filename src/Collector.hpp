@@ -8,6 +8,9 @@
 #include <iterator>
 #include <algorithm>
 #include <regex>
+#include <string>
+#include <unordered_map>
+
 
 /****
  A BETTER REGEX BUT WORKING ONLY ON WIN AND LINUX
@@ -24,7 +27,10 @@ class Collector {
 public:
     Article* getNewArticle();
     Collector(string);
+    void getArticleWords( std::unordered_map<std::string,std::vector<long> *> & map);
 private:
+    void replace_by(std::string& str, std::unordered_map<std::string,std::vector<long> *> & map,long id );
+    std::unordered_map<char,char> punctuation_to_delete;
     ifstream file;
 };
 
