@@ -1,15 +1,15 @@
 #include "Collector.hpp"
 
-Collector::Collector(string name)
+Collector::Collector(string name): str_delimiters(DELIMITERS)
 {
     this->file.open(name);
     if(!this->file.is_open()){
         perror("open");
         exit(EXIT_FAILURE);
     }
-    std::vector<char> tmp {'.','[',']','(',')',',','?','&','|',':'};
-    for(unsigned int i=0; i < tmp.size(); i++){
-        this->punctuation_to_delete[tmp[i]]=' ';
+
+    for (size_t i = 0; i < CHAR_MAX_VAL; i++) {
+      dict[i] = false;
     }
 }
 
@@ -29,55 +29,59 @@ void Collector::getArticleWords(std::unordered_map<std::string,std::set<long> *>
 
         if(line.size() > 6 && line.compare(2, 6, "title:") == 0){
             tmp=line.substr(9);
-            replace_by(tmp,map,id);
+            getTokensAndStore(line, map, id);
         }
 
         if(line.size() > 11 && line.compare(2, 11, "categories:") == 0){
             nb_categories = stol(line.substr(14));
             for(int i=0;i < nb_categories; i++){
                 getline(this->file, line);
-                replace_by(line,map,id);
+                getTokensAndStore(line, map, id);
             }
         }
     }
     cout << "End\n";
 }
 
-void Collector::replace_by(std::string& str, std::unordered_map<std::string,std::set<long> *> & map,long  id ){
-    int start(0);
-    int len(0);
-    char a('a');
-    int len_a(-1);
-    for ( std::string::iterator it=str.begin(); it!=str.end(); ++it){
-        len++;
-        auto search=punctuation_to_delete.find(*it);
-        if(search!=punctuation_to_delete.end()){
-            *it=' ';
-            if(a!=' '){
-                auto search=map.find(str.substr(start,len-1));
-                if(search!=map.end()){
-                    search->second->insert(id);
-                }
-                start=start+len;
-                len=0;
-            }
+/**
+As you can imaine the function below is not from me
+**/
+
+std::string Collector::str_tolower(std::string s) {
+    std::transform(s.begin(), s.end(), s.begin(),[](unsigned char c){
+      return std::tolower(c);
+    });
+    return s;
+}
+
+void Collector::getTokensAndStore(const string &s, std::unordered_map<std::string,std::set<long> *> & map, long id)
+{
+
+  for (std::string::iterator it = str_delimiters.begin(); it != str_delimiters.end(); ++it) {
+    dict[(int)*it] = true;
+  }
+
+  std::string token("");
+  for(auto &i : s) {
+    if(dict[(int)i]) {
+      if(!token.empty()) {
+        token = str_tolower(token);
+        auto search = map.find(token);
+        if(search!=map.end()){
+          search->second->insert(id);
         }
-        else{
-            *it=std::tolower(*it);
-            if((*it==' ' || *it=='\r') && a!=' '){
-                auto search=map.find(str.substr(start,len-1));
-                if(search!=map.end()){
-                    search->second->insert(id);
-                }
-                start=start+len;
-                len=0;
-            }
-        }
-        if(a==' ' && *it==' ' && start-1==len_a){
-            start++;
-            len--;
-        }
-        len_a++;
-        a=*it;
+
+        token.clear();
+      }
+    } else {
+      token += i;
     }
+  }
+  if(!token.empty()) {
+    token = str_tolower(token);
+    auto search=map.find(token);
+    if(search!=map.end()){
+      search->second->insert(id);
+    }
+  }
 }

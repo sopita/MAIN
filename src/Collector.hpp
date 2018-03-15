@@ -12,26 +12,19 @@
 #include <unordered_map>
 #include <set>
 
-
-/****
- A BETTER REGEX BUT WORKING ONLY ON WIN AND LINUX
- "[^\\[a-zA-Z ]||\\[||\\]]"
- ****/
-
-#if defined(_WIN32) || defined(__linux__)
-#define REGEX "([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)"
-#elif __APPLE__
-#define REGEX R"([\\-,;:](\\[.*?\\]||&))||(\\[.*?\\]||&)"
-#endif
+#define DELIMITERS " ,:|()[]"
+#define CHAR_MAX_VAL 256
 
 class Collector {
 public:
     Collector(string);
     void getArticleWords( std::unordered_map<std::string,std::set<long> *> & map);
 private:
-    void replace_by(std::string& str, std::unordered_map<std::string,std::set<long> *> & map,long id );
-    std::unordered_map<char,char> punctuation_to_delete;
+    void getTokensAndStore(const string &s, std::unordered_map<std::string,std::set<long> *> & map, long id);
+    std::string str_tolower(std::string s);
     ifstream file;
+    bool dict[CHAR_MAX_VAL];
+    std::string str_delimiters;
 };
 
 #endif /* Collector_hpp*/

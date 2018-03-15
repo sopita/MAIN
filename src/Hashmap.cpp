@@ -73,7 +73,7 @@ void Hashmap::create_collector(std::string md,std::vector<std::string> & dicts,s
     std::set<long>::iterator set_it;
 
     for (itr=map.begin(); itr!=map.end(); itr++){
-        fic << itr->first << ": "; 
+        fic << itr->first << ": ";
         for (set_it = itr->second->begin(); set_it != itr->second->end(); ++set_it){
             fic << *set_it << ", ";
         }
