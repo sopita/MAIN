@@ -18,13 +18,33 @@
 class Collector {
 public:
     Collector(string);
-    void getArticleWords( std::unordered_map<std::string,std::set<long> *> & map);
+    ~Collector();
+    void create_collector(std::vector<std::string> & dicts,std::string exclude_dict);
+    void show_map();
+    void getArticleWords();
+    void storeJson(string path);
+    void loadJson(string path);
 private:
-    void getTokensAndStore(const string &s, std::unordered_map<std::string,std::set<long> *> & map, long id);
+    void getTokensAndStore(const string &s, long id);
     std::string str_tolower(std::string s);
     ifstream file;
     bool dict[CHAR_MAX_VAL];
     std::string str_delimiters;
+    void add_dictionnary(std::string dict);
+    void delete_dict(std::string dict);
+    void put(const std::string key);
+    std::set<long> * getArticleIds(std::string key);
+    std::unordered_map<std::string,std::set<long> *> mot_produits;
 };
+
+template<typename T>
+std::ostream& operator<<(std::ostream& s, std::vector<T> t) {
+    s << "[";
+    for (std::size_t i = 0; i < t.size(); i++) {
+        s << t[i] << (i == t.size() - 1 ? "" : ",");
+    }
+    return s << "]" << std::endl;
+}
+
 
 #endif /* Collector_hpp*/
