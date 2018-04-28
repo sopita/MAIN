@@ -7,6 +7,12 @@ cd src
 make
 ```
 
+### Test Json
+
+Json library used : https://github.com/nlohmann/json
+Before launching **test_load_collector** or **test_load_pagerank** you need to build json files.
+(with **./pagerank** and **./collector**).
+
 ### __PageRank__
 
 #### Example of execution
