@@ -22,8 +22,7 @@ public:
     void create_collector(std::vector<std::string> & dicts,std::string exclude_dict);
     void show_map();
     void getArticleWords();
-    void storeJson(string path);
-    void loadJson(string path);
+    static void loadJson(const char *, unordered_map<string, set<long> *> &);
 private:
     void getTokensAndStore(const string &s, long id);
     std::string str_tolower(std::string s);

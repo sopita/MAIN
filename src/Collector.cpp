@@ -1,4 +1,7 @@
 #include "Collector.hpp"
+#include "../include/json.hpp"
+
+using json = nlohmann::json;
 
 Collector::Collector(string name): str_delimiters(DELIMITERS)
 {
@@ -136,7 +139,7 @@ void Collector::show_map(){
     for (itr=mot_produits.begin(); itr!=mot_produits.end(); itr++){
         cout << itr->first << "  " << itr->second->size() << endl;
     }
-    
+
 }
 
 
@@ -147,25 +150,20 @@ void Collector::create_collector(std::vector<std::string> & dicts,std::string ex
     this->delete_dict(exclude_dict);
     std::string lower_tmp;
     getArticleWords();
-    
-    ofstream fic("output.txt",ios::trunc | ios::out);
-    if(!fic.is_open()){
-        perror("open");
-        exit(EXIT_FAILURE);
-    }
-    
+
     unordered_map<std::string, std::set<long> *>:: iterator itr;
     std::set<long>::iterator set_it;
-    
+    json j;
     for (itr=mot_produits.begin(); itr!=mot_produits.end(); itr++){
-        fic << itr->first << ": ";
         for (set_it = itr->second->begin(); set_it != itr->second->end(); ++set_it){
-            fic << *set_it << ", ";
+             j[itr->first]  += *set_it;
         }
-        fic << endl;
     }
-    fic.close();
-    cout << "the output file has been created: output.txt\n";
+
+    std::ofstream o("collector.json");
+    o << std::setw(4) << j << std::endl;
+
+    cout << "the output file has been created: collector.json\n";
 }
 
 Collector::~Collector(){
@@ -175,9 +173,18 @@ Collector::~Collector(){
     }
 }
 
+void Collector::loadJson(const char * path, unordered_map<string, set<long> *> & motProduits){
+  std::ifstream i(path);
 
-void Collector::storeJson(string path){
-}
+  if (!i.fail()) {
+    json j;
+    i >> j;
 
-void Collector::loadJson(string path){
+    for (json::iterator it = j.begin(); it != j.end(); ++it) {
+      motProduits[it.key()]=new std::set<long>();
+      for(long l: it.value()) {
+        motProduits.find(it.key())->second->insert(l);
+      }
+    }
+  }
 }
