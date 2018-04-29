@@ -32,5 +32,6 @@
 *.app
 
 examples
-amazon-meta.txt
+*.txt
 stats
+*.gz

@@ -18,4 +18,4 @@ test_load_collector: Collector.cpp
 	g++ test_load_collector.cpp Collector.cpp -o test_load_collector
 
 clean:
-	find . -maxdepth 1 -type f ! -name "*.cpp" ! -name "*.hpp" ! -name "*.sh" ! -name "Makefile" ! -name "*.txt" -delete
+	find . -maxdepth 1 -type f ! -name "*.cpp" ! -name "*.hpp" ! -name "*.sh" ! -name "Makefile" ! -name "*.txt" ! -name "*.json" -delete
