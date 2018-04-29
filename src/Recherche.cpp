@@ -12,11 +12,7 @@ Recherche::Recherche(string recherche,string dict_to_exclude){
      **THIS CUMPUTE WOULDN'T HAVE NEED IF Cli::loadJson HAD RETURNED A MAP
     */
     cout << "Starting to load the pagerank\n";
-    std::vector<pair<long, float>> pagerank;
-    Cli::loadJson("pagerank.json", pagerank);
-    for (const pair<long, float> &edge : pagerank) {
-        this->pagerank[edge.first]=edge.second;
-    }
+    Cli::loadJson("pagerank.json", this->pagerank);
     cout << "Pagerank load\n";
     
     //INIT the recherche set.
