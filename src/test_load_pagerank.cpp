@@ -1,12 +1,12 @@
 #include "Cli.hpp"
 
 int main(int argc, char const *argv[]) {
-  std::vector<pair<long, float>> pagerank;
+  unordered_map<long, float>  pagerank;
   Cli::loadJson("pagerank.json", pagerank);
 
   //Pour avoir les valeurs
-  for (const pair<long, float> &edge : pagerank) {
-     std::cout << edge.first << " => " << edge.second << endl;
+  for(const auto& n : pagerank) {
+       std::cout << n.first << " => " << n.second << endl;
   }
 
   return 0;

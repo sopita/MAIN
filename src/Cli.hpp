@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cmath>
 #include <fstream>
+#include <unordered_map>
 #include "Unitval.hpp"
 #include "../include/json.hpp"
 
@@ -25,7 +26,7 @@ public:
   void print_cli();
   void pagerank(float, float);
   bool check_if_continue(vector<float>, float);
-  static void loadJson(const char * path, vector<pair<long, float>> &);
+  static void loadJson(const char * path, unordered_map<long, float> &);
 private:
   unsigned int nb_node;
   vector<Unitval*> c;

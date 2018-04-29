@@ -80,13 +80,14 @@ void Cli::print_cli() {
     cout << endl;
 }
 
-void Cli::loadJson(const char * path, vector<pair<long, float>> & pagerank){
+void Cli::loadJson(const char * path, unordered_map<long, float> & pagerank){
   std::ifstream i(path);
   if (!i.fail()) {
     json j;
     i >> j;
 
     for(unsigned int i = 0; i < j.size(); i++)
-      pagerank.push_back(pair<long, float>(j[i]["id"], j[i]["value"]));
+      pagerank[j[i]["id"]] = j[i]["value"];
+
   }
 }

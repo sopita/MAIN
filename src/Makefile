@@ -21,4 +21,4 @@ recherche: Recherche.hpp Recherche.cpp
 	g++ Recherche.cpp Collector.cpp Cli.cpp Unitval.cpp -o recherche -std=c++11
 
 clean:
-	find . -maxdepth 1 -type f ! -name "*.cpp" ! -name "*.hpp" ! -name "*.sh" ! -name "Makefile" ! -name "*.txt" -delete
+	find . -maxdepth 1 -type f ! -name "*.cpp" ! -name "*.hpp" ! -name "*.sh" ! -name "Makefile" ! -name "*.txt" ! -name "*.json" -delete
