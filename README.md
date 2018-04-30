@@ -1,4 +1,7 @@
 ### Méthodes algorithmiques pour l'accès à l'information numérique
+
+## **For more details see the Rapport file**
+
 ### Execute all
 You can change every argument in the script.
 ```
